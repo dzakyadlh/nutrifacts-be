@@ -8,11 +8,11 @@ const connection = mysql.createConnection({
 });
 connection.connect((err) => {
   if (err) {
-    console.error('Koneksi MySQL gagal: ' + err.stack);
+    console.error('MySQL connection failed: ' + err.stack);
     return;
   }
 
-  console.log('Berhasil terkoneksi ke MySQL dengan ID ' + connection.threadId);
+  console.log('Successfully connect to MySQL');
 });
 
 module.exports = connection

@@ -16,12 +16,12 @@ router.post('/login', (req, res) => {
     }
 
     if (results.length === 0) {
-      return res.status(401).json({ success: false, message: 'Username not found' });
+      return res.status(401).json({ success: false, message: 'Account not Found' });
     }
 
     const user = results[0];
 
-    // Memeriksa apakah password cocok menggunakan bcrypt
+    // Memeriksa apakah password cocok
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     console.log('Input Password:', password);
@@ -29,9 +29,9 @@ router.post('/login', (req, res) => {
     console.log('Password Match:', isPasswordMatch);
 
     if (isPasswordMatch) {
-      return res.status(200).json({ success: true, message: 'Login successful' });
+      return res.status(200).json({ success: true, message: 'Login Successful' });
     } else {
-      return res.status(401).json({ success: false, message: 'Incorrect password' });
+      return res.status(401).json({ success: false, message: 'Incorrect Password' });
     }
   });
 });
@@ -42,21 +42,41 @@ router.post('/signup', async (req, res) => {
   try {
     const { email, username, password } = req.body;
 
-    // Hash password sebelum menyimpan ke database
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const sql = 'INSERT INTO user (email, username, password) VALUES (?, ?, ?)';
-    db.query(sql, [email, username, hashedPassword], (err, result) => {
-      if (err) {
-        console.error('Error during user registration:', err);
+    // Periksa apakah email sudah ada di database
+    const checkEmailQuery = 'SELECT * FROM user WHERE email = ?';
+    db.query(checkEmailQuery, [email], (checkEmailErr, checkEmailResult) => {
+      if (checkEmailErr) {
+        console.error('Error checking email:', checkEmailErr);
         return res.status(500).json({ success: false, message: 'Internal Server Error' });
       }
 
-      if (result.affectedRows > 0) {
-        return res.status(200).json({ success: true, message: 'User registered successfully' });
-      } else {
-        return res.status(500).json({ success: false, message: 'Failed to register user' });
+      // Jika email sudah ada, beri respons sesuai
+      if (checkEmailResult.length > 0) {
+        return res.status(400).json({ success: false, message: 'Email already exists. Please use a different email.' });
       }
+
+      // Periksa panjang password
+      if (password.length < 8) {
+        return res.status(400).json({ success: false, message: 'Password should be at least 8 characters long.' });
+      }
+
+      // Hash password sebelum menyimpan ke database
+      const hashedPassword = bcrypt.hashSync(password, 3);
+
+      // Query untuk insert user baru ke database
+      const insertUserQuery = 'INSERT INTO user (email, username, password) VALUES (?, ?, ?)';
+      db.query(insertUserQuery, [email, username, hashedPassword], (insertErr, result) => {
+        if (insertErr) {
+          console.error('Error during user registration:', insertErr);
+          return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        }
+
+        if (result.affectedRows > 0) {
+          return res.status(200).json({ success: true, message: 'User Registered Successfully' });
+        } else {
+          return res.status(500).json({ success: false, message: 'Failed to Register User' });
+        }
+      });
     });
   } catch (error) {
     console.error('Error during user registration:', error);
@@ -70,8 +90,8 @@ router.get('/', (req, res) => {
   const query = 'SELECT * FROM user';
   db.query(query, (error, results, fields) => {
     if (error) {
-      console.error('Error dalam query MySQL: ' + error.message);
-      res.status(500).send('Error dalam query MySQL');
+      console.error('Error in MySQL query: ' + error.message);
+      res.status(500).send('Error in MySQL query');
       return;
     }
 
@@ -87,13 +107,13 @@ router.get('/:id', (req, res) => {
   const query = 'SELECT * FROM user WHERE id_user = ?';
   db.query(query, [userId], (error, results, fields) => {
     if (error) {
-      console.error('Gagal mendapatkan data user: ' + error.message);
-      res.status(500).send('Gagal mendapatkan data user');
+      console.error('Failed to get user data: ' + error.message);
+      res.status(500).send('Failed to get user data');
       return;
     }
 
     if (results.length === 0) {
-      res.status(404).send('User tidak ditemukan');
+      res.status(404).send('User not Found');
     } else {
       const user = results[0];
       // Hapus kolom password sebelum mengirimkan data ke klien
@@ -109,35 +129,35 @@ router.put('/:id', async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    // Hash password using bcrypt if there is a password change
+    // Hash kata sandi menggunakan bcrypt jika ada perubahan kata sandi
     let hashedPassword = password;
     if (password) {
       hashedPassword = await bcrypt.hash(password, 10);
     }
-    // Check if the user exists before updating data
+    // Periksa apakah pengguna sudah ada sebelum memperbarui data
     const checkUserQuery = 'SELECT * FROM user WHERE id_user = ?';
     db.query(checkUserQuery, [userId], async (checkError, checkResults, checkFields) => {
       if (checkError) {
-        console.error('Gagal mendapatkan data user ' + checkError.message);
-        res.status(500).send('Gagal mendapatkan data user');
+        console.error('Failed to get user data' + checkError.message);
+        res.status(500).send('Failed to get user data');
         return;
       }
-      // If the user is not found, send a 404 response
+      // Jika pengguna tidak ditemukan, kirimkan respons 404
       else if (checkResults.length === 0) {
-        res.status(404).send('User tidak ditemukan');
+        res.status(404).send('User not Found');
         return;
       }
 
-      // Update user data in the database
+      // Update data User
       const updateUserQuery = 'UPDATE user SET username = ?, email = ?, password = ? WHERE id_user = ?';
       db.query(updateUserQuery, [username, email, hashedPassword, userId], (updateError, updateResults, updateFields) => {
         if (updateError) {
-          console.error('Gagal Update data user ' + updateError.message);
-          res.status(500).send('Gagal Update data user');
+          console.error('Failed to update user data' + updateError.message);
+          res.status(500).send('Failed Update user data');
           return;
         }
 
-        res.status(200).send('Data user berhasil di Update!');
+        res.status(200).send('User Data was Successfully Updated');
       });
     });
   } catch (error) {
@@ -154,14 +174,14 @@ router.delete('/:id', (req, res) => {
   const checkUserQuery = 'SELECT * FROM user WHERE id_user = ?';
   db.query(checkUserQuery, [userId], (checkError, checkResults, checkFields) => {
     if (checkError) {
-      console.error('Gagal mendapatkan data user ' + checkError.message);
-      res.status(500).send('Gagal mendapatkan data user');
+      console.error('Failed to get user data' + checkError.message);
+      res.status(500).send('Failed to get user data');
       return;
     }
 
     // If the user is not found, send a 404 response
     if (checkResults.length === 0) {
-      res.status(404).send('User tidak ditemukan');
+      res.status(404).send('User not Found');
       return;
     }
 
@@ -169,12 +189,12 @@ router.delete('/:id', (req, res) => {
     const deleteUserQuery = 'DELETE FROM user WHERE id_user = ?';
     db.query(deleteUserQuery, [userId], (deleteError, deleteResults, deleteFields) => {
       if (deleteError) {
-        console.error('Gagal Menghapus data user ' + deleteError.message);
-        res.status(500).send('Gagal Menghapus data user');
+        console.error('Failed to Delete user data' + deleteError.message);
+        res.status(500).send('Failed to delete user data');
         return;
       }
 
-      res.status(200).send('Data user berhasi di hapus');
+      res.status(200).send('User data has been Deleted');
     });
   });
 });
