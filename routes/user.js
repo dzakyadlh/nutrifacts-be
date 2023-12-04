@@ -93,8 +93,8 @@ router.get('/', (req, res) => {
       console.error('Error in MySQL query: ' + error.message);
       res.status(500).send('Error in MySQL query');
       return;
+      
     }
-
     res.json(results);
   });
 });
