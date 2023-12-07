@@ -34,7 +34,7 @@ router.get('/barcode/:barcode', (req, res) => {
     
     if (results.length === 0) {
       res.status(404).send('Product not Found, make sure the product barcode is correct');
-      return; //hentikan eksekusi fungsi setelah memberikan respons 404
+      return;
     }
 
     // Produk ditemukan, kirim respons dengan data produk
@@ -50,7 +50,7 @@ router.get('/name', function(req, res) {
 // Rute untuk mendapatkan data pengguna berdasarkan Nama
 router.get('/name/:name', (req, res) => {
   const name = req.params.name;
-  // Query ke database untuk mendapatkan data produk berdasarkan name
+
   const query = 'SELECT * FROM product WHERE name = ?';
   db.query(query, [name], (error, results, fields) => {
     if (error) {
@@ -61,7 +61,7 @@ router.get('/name/:name', (req, res) => {
     
     if (results.length === 0) {
       res.status(404).send('Product not Found, make sure the product name is correct');
-      return; //hentikan eksekusi fungsi setelah memberikan respons 404
+      return; 
     }
 
     // Produk ditemukan, kirim respons dengan data produk

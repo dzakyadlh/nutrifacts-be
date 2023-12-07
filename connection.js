@@ -4,7 +4,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'db_percobaan_user',
+  database: 'capstone_project',
 });
 connection.connect((err) => {
   if (err) {
