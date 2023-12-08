@@ -1,18 +1,19 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../connection');
+const { authenticateToken } = require('../middleware/verify-token');
 
 
 
 // Route apabila tidak memasukan detail product dengan barcode
-router.get('/', function(req, res) {
+router.get('/',authenticateToken, function(req, res) {
     res.status(404).send('Please Input Product Detail by Barcode');
   });
 
 
 
   // Rute untuk mendapatkan data user berdasarkan Barcode
-router.get('/:barcode', (req, res) => {
+router.get('/:barcode',authenticateToken, (req, res) => {
     const barcode = req.params.barcode;
   
     // Query ke database untuk mendapatkan data user berdasarkan Barcode

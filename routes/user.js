@@ -41,7 +41,7 @@ router.post('/login', (req, res) => {
       // Jika otentikasi berhasil, generate token
       const token = generateToken(user);
 
-      return res.status(200).json({ success: true, message: 'Login Successful', userId: user.user_id, token });
+      return res.status(200).json({ success: true, message: 'Login Successful', userId: user.user_id, username: user.username,  token });
     } else {
       return res.status(401).json({ success: false, message: 'Incorrect Password' });
     }
@@ -109,7 +109,7 @@ router.post('/signup', async (req, res) => {
 
 
 // Route get all data user
-router.get('/', (req, res) => {
+router.get('/',authenticateToken,(req, res) => {
   const query = 'SELECT * FROM user';
   db.query(query, (error, results, fields) => {
     if (error) {
@@ -122,7 +122,7 @@ router.get('/', (req, res) => {
 });
 
 // Rute untuk mendapatkan data user berdasarkan ID
-router.get('/:id', (req, res) => {
+router.get('/:id',authenticateToken,(req, res) => {
   const userId = req.params.id;
   // Query ke database untuk mendapatkan data user berdasarkan ID
   const query = 'SELECT * FROM user WHERE user_id = ?';
@@ -145,11 +145,21 @@ router.get('/:id', (req, res) => {
 });
 
 // Rute untuk Update data pengguna berdasarkan ID
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticateToken,  async (req, res) => {
   const userId = req.params.id;
   const { username, email, password } = req.body;
 
   try {
+    // Validasi panjang password
+    if (password && password.length < 8) {
+      return res.status(400).json({ message: 'Password must be at least 8 characters long' });
+    }
+
+    // Validasi email mengandung '@'
+    if (email && !email.includes('@')) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
     // Hash kata sandi menggunakan bcrypt jika ada perubahan kata sandi
     let hashedPassword = password;
     if (password) {
@@ -190,7 +200,7 @@ router.put('/:id', async (req, res) => {
           // Hapus kolom password sebelum mengirimkan data ke klien
           delete updatedUser.password;
           // Kirim respons dengan data user yang baru saja diperbarui
-          res.status(200).json({ message: 'Update user data Successful', user: updatedUser, });
+          res.status(200).json({ message: 'Update user data Successful', user: updatedUser });
         });
       });
     });
@@ -202,7 +212,7 @@ router.put('/:id', async (req, res) => {
 
 
 // Rute untuk menghapus data pengguna berdasarkan ID
-router.delete('/:id', (req, res) => {
+router.delete('/:id',authenticateToken, (req, res) => {
   const userId = req.params.id;
 
   const checkUserQuery = 'SELECT * FROM user WHERE user_id = ?';
