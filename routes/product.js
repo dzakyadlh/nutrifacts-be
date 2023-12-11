@@ -105,7 +105,7 @@ router.get('/barcode/:barcode', authenticateToken, (req, res) => {
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ error: 'Product data not found, make sure to enter the barcode correctly' });
+      return res.status(404).json({ error: 'Product data not found, make sure to enter the barcode code correctly' });
     } else {
       const productData = results[0];
       return res.json({ success: true, product: productData });
@@ -159,7 +159,7 @@ router.get('/detail/:barcode', authenticateToken, (req, res) => {
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ success: false, error: 'Product not found, make sure the product Barcode is correct' });
+      return res.status(404).json({ success: false, error: 'Product data not found, make sure to enter the barcode code correctly' });
     }
     const productDetail = results[0];
     return res.json({ success: true, product: productDetail });
