@@ -11,7 +11,7 @@ router.get('/', authenticateToken, (req, res) => {
       console.error('Error in MySQL query: ' + error.message);
       return res.status(500).json({ error: 'Error in MySQL query' });
     }
-    res.json({ success: true, message: 'Successfully retrieved all product data', product: results });
+    res.json({ success: true, product: results });
   });
 });
 
@@ -105,7 +105,7 @@ router.get('/barcode/:barcode', authenticateToken, (req, res) => {
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ error: 'Product data not found, make sure to enter the barcode code correctly' });
+      return res.status(404).json({error: 'Product data not found, make sure to enter the barcode code correctly' });
     } else {
       const productData = results[0];
       return res.json({ success: true, product: productData });
@@ -137,7 +137,7 @@ router.get('/name/:name', authenticateToken, (req, res) => {
         }
 
         const recommendedNames = recommendResults.map(result => result.name);
-        return res.status(404).json({ success: false, error: 'Product data not found, Make sure to enter the product name correctly', recommendations: recommendedNames });
+        return res.status(404).json({ error: 'Product data not found, Make sure to enter the product name correctly', recommendations: recommendedNames });
       });
     } else {
       return res.json({ success: true, product: results });
@@ -159,7 +159,7 @@ router.get('/detail/:barcode', authenticateToken, (req, res) => {
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ success: false, error: 'Product data not found, make sure to enter the barcode code correctly' });
+      return res.status(404).json({ error: 'Product data not found, make sure to enter the barcode code correctly' });
     }
     const productDetail = results[0];
     return res.json({ success: true, product: productDetail });
