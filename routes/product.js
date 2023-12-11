@@ -11,38 +11,137 @@ router.get('/', authenticateToken, (req, res) => {
       console.error('Error in MySQL query: ' + error.message);
       return res.status(500).json({ error: 'Error in MySQL query' });
     }
-    return res.json(results);
+    res.json({ success: true, data: results });
   });
 });
 
-// Route untuk mencari data produk berdasarkan Barcode atau Nama
-router.get('/:barcodeorname', authenticateToken, (req, res) => {
-  const barcodeorname = req.params.barcodeorname;
-  const isBarcode = /^\d+$/.test(barcodeorname);
 
-  let query;
-  let queryParams;
+// Rute untuk menambah Data produk
+router.post('/', authenticateToken, (req, res) => {
+  const { name, company, photoUrl, nutrition_data, nutrition_level, barcode } = req.body;
 
-  if (isBarcode) {
-    query = 'SELECT * FROM product WHERE barcode = ?';
-    queryParams = [barcodeorname];
-  } else {
-    query = 'SELECT * FROM product WHERE name LIKE ?';
-    queryParams = [`%${barcodeorname}%`];
+  if (!name || !company || !photoUrl || !nutrition_data || !nutrition_level || !barcode) {
+    return res.status(400).json({ error: 'All fields (name, company, photoUrl, nutrition_data, nutrition_level, barcode) are required' });
   }
 
-  // Query ke database untuk mendapatkan data produk berdasarkan barcode atau nama
-  db.query(query, queryParams, (error, results, fields) => {
+  const insertQuery = 'INSERT INTO product (name, company, photoUrl, nutrition_data, nutrition_level, barcode) VALUES (?, ?, ?, ?, ?, ?)';
+  const values = [name, company, photoUrl, nutrition_data, nutrition_level, barcode];
+
+  db.query(insertQuery, values, (error, results, fields) => {
     if (error) {
-      console.error('Failed to get product data: ' + error.message);
+      console.error('Error in MySQL query: ' + error.message);
+      return res.status(500).json({ error: 'Error inserting product into the database' });
+    }
+
+    return res.json({ success: true, message: 'Product added successfully', productId: results.insertId });
+  });
+});
+
+
+// Rute untuk mengupdate produk berdasarkan ID
+router.put('/:id', authenticateToken, (req, res) => {
+  const productId = req.params.id;
+  const { name, company, photoUrl, nutrition_data, nutrition_level, barcode } = req.body;
+
+  if (!productId) {
+    return res.status(400).json({ error: 'Product ID is required in the URL parameter' });
+  }
+
+  // Pengecekan untuk inputan data produk
+  if (!name || !company || !photoUrl || !nutrition_data || !nutrition_level || !barcode) {
+    return res.status(400).json({ error: 'All fields (name, company, photoUrl, nutrition_data, nutrition_level, barcode) are required' });
+  }
+
+  const updateQuery = 'UPDATE product SET name=?, company=?, photoUrl=?, nutrition_data=?, nutrition_level=?, barcode=? WHERE id=?';
+  const values = [name, company, photoUrl, nutrition_data, nutrition_level, barcode, productId];
+
+  db.query(updateQuery, values, (error, results, fields) => {
+    if (error) {
+      console.error('Error in MySQL query: ' + error.message);
+      return res.status(500).json({ error: 'Error updating product in the database' });
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    return res.json({ success: true, message: 'Product updated successfully', productId: parseInt(productId) });
+  });
+});
+
+// Rute untuk menghapus produk berdasarkan ID
+router.delete('/:id', authenticateToken, (req, res) => {
+  const productId = req.params.id;
+
+  if (!productId) {
+    return res.status(400).json({ error: 'Product ID is required in the URL parameter' });
+  }
+
+  const deleteQuery = 'DELETE FROM product WHERE id=?';
+  const values = [productId];
+
+  db.query(deleteQuery, values, (error, results, fields) => {
+    if (error) {
+      console.error('Error in MySQL query: ' + error.message);
+      return res.status(500).json({ error: 'Error deleting product from the database' });
+    }
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    return res.json({ success: true, message: 'Product deleted successfully', deletedProductId: parseInt(productId) });
+  });
+});
+
+
+// Rute untuk mendapatkan data Produk berdasarkan Barcode
+router.get('/barcode/:barcode', authenticateToken, (req, res) => {
+  const barcode = req.params.barcode;
+  const query = 'SELECT * FROM product WHERE barcode = ?';
+  db.query(query, [barcode], (error, results, fields) => {
+    if (error) {
+      console.error('Failed to get Product data: ' + error.message);
       return res.status(500).json({ error: 'Failed to get product data' });
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ error: 'Product not found, make sure the product Barcode or Product Name is correct' });
+      return res.status(404).json({ error: 'Product data not found, make sure to enter the barcode correctly' });
+    } else {
+      // mendapatkan data 1 data produk
+      return res.json(results[0]);
+    }
+  });
+});
+
+// Rute untuk mendapatkan data Produk berdasarkan Name
+router.get('/name/:name', authenticateToken, (req, res) => {
+  const partialName = req.params.name;
+
+  // Query ke database untuk mencari data produk berdasarkan nama yang cocok
+  const query = 'SELECT * FROM product WHERE name LIKE ?';
+  const partialNameWithWildcards = `%${partialName}%`;
+
+  db.query(query, [partialNameWithWildcards], (error, results, fields) => {
+    if (error) {
+      console.error('Failed to get Product data: ' + error.message);
+      return res.status(500).json({ error: 'Failed to get product data' });
     }
 
-    return res.json(results);
+    if (results.length === 0) {
+
+      const recommendQuery = 'SELECT DISTINCT name FROM product WHERE name LIKE ? LIMIT 5';
+      db.query(recommendQuery, [`%${partialName}%`], (recommendError, recommendResults) => {
+        if (recommendError) {
+          console.error('Failed to get product name recommendations: ' + recommendError.message);
+          return res.status(500).json({ error: 'Failed to get product name recommendations' });
+        }
+        
+        const recommendedNames = recommendResults.map(result => result.name);
+        return res.status(404).json({ error: 'Product data not found, Make sure to enter the product name correctly', });
+      });
+    } else {
+      return res.json(results);
+    }
   });
 });
 
