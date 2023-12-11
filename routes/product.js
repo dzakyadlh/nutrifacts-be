@@ -11,7 +11,7 @@ router.get('/', authenticateToken, (req, res) => {
       console.error('Error in MySQL query: ' + error.message);
       return res.status(500).json({ error: 'Error in MySQL query' });
     }
-    res.json({ success: true, data: results });
+    res.json({ success: true, message: 'Successfully retrieved all product data', product: results });
   });
 });
 
@@ -88,7 +88,6 @@ router.delete('/:id', authenticateToken, (req, res) => {
     if (results.affectedRows === 0) {
       return res.status(404).json({ error: 'Product not found' });
     }
-
     return res.json({ success: true, message: 'Product deleted successfully', deletedProductId: parseInt(productId) });
   });
 });
@@ -98,6 +97,7 @@ router.delete('/:id', authenticateToken, (req, res) => {
 router.get('/barcode/:barcode', authenticateToken, (req, res) => {
   const barcode = req.params.barcode;
   const query = 'SELECT * FROM product WHERE barcode = ?';
+
   db.query(query, [barcode], (error, results, fields) => {
     if (error) {
       console.error('Failed to get Product data: ' + error.message);
@@ -107,11 +107,12 @@ router.get('/barcode/:barcode', authenticateToken, (req, res) => {
     if (results.length === 0) {
       return res.status(404).json({ error: 'Product data not found, make sure to enter the barcode correctly' });
     } else {
-      // mendapatkan data 1 data produk
-      return res.json(results[0]);
+      const productData = results[0];
+      return res.json({ success: true, product: productData });
     }
   });
 });
+
 
 // Rute untuk mendapatkan data Produk berdasarkan Name
 router.get('/name/:name', authenticateToken, (req, res) => {
@@ -128,26 +129,25 @@ router.get('/name/:name', authenticateToken, (req, res) => {
     }
 
     if (results.length === 0) {
-
       const recommendQuery = 'SELECT DISTINCT name FROM product WHERE name LIKE ? LIMIT 5';
       db.query(recommendQuery, [`%${partialName}%`], (recommendError, recommendResults) => {
         if (recommendError) {
           console.error('Failed to get product name recommendations: ' + recommendError.message);
           return res.status(500).json({ error: 'Failed to get product name recommendations' });
         }
-        
+
         const recommendedNames = recommendResults.map(result => result.name);
-        return res.status(404).json({ error: 'Product data not found, Make sure to enter the product name correctly', });
+        return res.status(404).json({ success: false, error: 'Product data not found, Make sure to enter the product name correctly', recommendations: recommendedNames });
       });
     } else {
-      return res.json(results);
+      return res.json({ success: true, products: results });
     }
   });
 });
 
 
 // Rute untuk mendapatkan detail produk berdasarkan Barcode
-router.get('/detail/:barcode',authenticateToken, (req, res) => {
+router.get('/detail/:barcode', authenticateToken, (req, res) => {
   const barcode = req.params.barcode;
 
   // Query ke database untuk mendapatkan data produk berdasarkan Barcode
@@ -159,12 +159,13 @@ router.get('/detail/:barcode',authenticateToken, (req, res) => {
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ error: 'Product not found, make sure the product Barcode is correct' });
+      return res.status(404).json({ success: false, error: 'Product not found, make sure the product Barcode is correct' });
     }
-
-    return res.json(results[0]);
+    const productDetail = results[0];
+    return res.json({ success: true, product: productDetail });
   });
 });
+
 
 
 module.exports = router;
