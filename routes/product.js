@@ -93,9 +93,15 @@ router.delete('/:id', authenticateToken, (req, res) => {
 });
 
 
+// Route apabila tidak memasukan barcode
+router.get('/barcode', authenticateToken, (req, res) => {
+    return res.status(400).json({ success: false, message: 'Product barcode must be filled in. Please enter a valid barcode' });
+  });
+
 // Rute untuk mendapatkan data Produk berdasarkan Barcode
 router.get('/barcode/:barcode', authenticateToken, (req, res) => {
   const barcode = req.params.barcode;
+  
   const query = 'SELECT * FROM product WHERE barcode = ?';
 
   db.query(query, [barcode], (error, results, fields) => {
@@ -113,6 +119,10 @@ router.get('/barcode/:barcode', authenticateToken, (req, res) => {
   });
 });
 
+// Route apabila tidak memasukan Name
+router.get('/name', authenticateToken, (req, res) => {
+    return res.status(400).json({ success: false, message: 'The product name must be filled in. Please enter a valid name' });
+  });
 
 // Rute untuk mendapatkan data Produk berdasarkan Name
 router.get('/name/:name', authenticateToken, (req, res) => {
@@ -145,6 +155,10 @@ router.get('/name/:name', authenticateToken, (req, res) => {
   });
 });
 
+// Route apabila tidak memasukan barcode pada product detail
+router.get('/detail', authenticateToken, (req, res) => {
+    return res.status(400).json({ success: false, message: 'Product details by barcode must be filled in. Please enter a valid barcode' });
+  });
 
 // Rute untuk mendapatkan detail produk berdasarkan Barcode
 router.get('/detail/:barcode', authenticateToken, (req, res) => {
