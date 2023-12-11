@@ -140,7 +140,7 @@ router.get('/name/:name', authenticateToken, (req, res) => {
         return res.status(404).json({ success: false, error: 'Product data not found, Make sure to enter the product name correctly', recommendations: recommendedNames });
       });
     } else {
-      return res.json({ success: true, products: results });
+      return res.json({ success: true, product: results });
     }
   });
 });
