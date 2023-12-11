@@ -9,7 +9,7 @@ router.get('/', authenticateToken, (req, res) => {
   db.query(query, (error, results, fields) => {
     if (error) {
       console.error('Error in MySQL query: ' + error.message);
-      return res.status(500).json({ error: 'Error in MySQL query' });
+      return res.status(500).json({ success: false, error: 'Error in MySQL query' });
     }
     res.json({ success: true, product: results });
   });
@@ -21,7 +21,7 @@ router.post('/', authenticateToken, (req, res) => {
   const { name, company, photoUrl, nutrition_data, nutrition_level, barcode } = req.body;
 
   if (!name || !company || !photoUrl || !nutrition_data || !nutrition_level || !barcode) {
-    return res.status(400).json({ error: 'All fields (name, company, photoUrl, nutrition_data, nutrition_level, barcode) are required' });
+    return res.status(400).json({ success: false, error: 'All fields (name, company, photoUrl, nutrition_data, nutrition_level, barcode) are required' });
   }
 
   const insertQuery = 'INSERT INTO product (name, company, photoUrl, nutrition_data, nutrition_level, barcode) VALUES (?, ?, ?, ?, ?, ?)';
@@ -30,7 +30,7 @@ router.post('/', authenticateToken, (req, res) => {
   db.query(insertQuery, values, (error, results, fields) => {
     if (error) {
       console.error('Error in MySQL query: ' + error.message);
-      return res.status(500).json({ error: 'Error inserting product into the database' });
+      return res.status(500).json({ success: false, error: 'Error inserting product into the database' });
     }
 
     return res.json({ success: true, message: 'Product added successfully', productId: results.insertId });
@@ -44,12 +44,12 @@ router.put('/:id', authenticateToken, (req, res) => {
   const { name, company, photoUrl, nutrition_data, nutrition_level, barcode } = req.body;
 
   if (!productId) {
-    return res.status(400).json({ error: 'Product ID is required in the URL parameter' });
+    return res.status(400).json({ success: false, error: 'Product ID is required in the URL parameter' });
   }
 
   // Pengecekan untuk inputan data produk
   if (!name || !company || !photoUrl || !nutrition_data || !nutrition_level || !barcode) {
-    return res.status(400).json({ error: 'All fields (name, company, photoUrl, nutrition_data, nutrition_level, barcode) are required' });
+    return res.status(400).json({ success: false, error: 'All fields (name, company, photoUrl, nutrition_data, nutrition_level, barcode) are required' });
   }
 
   const updateQuery = 'UPDATE product SET name=?, company=?, photoUrl=?, nutrition_data=?, nutrition_level=?, barcode=? WHERE id=?';
@@ -58,11 +58,11 @@ router.put('/:id', authenticateToken, (req, res) => {
   db.query(updateQuery, values, (error, results, fields) => {
     if (error) {
       console.error('Error in MySQL query: ' + error.message);
-      return res.status(500).json({ error: 'Error updating product in the database' });
+      return res.status(500).json({ success: false, error: 'Error updating product in the database' });
     }
 
     if (results.affectedRows === 0) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ success: false, error: 'Product not found' });
     }
 
     return res.json({ success: true, message: 'Product updated successfully', productId: parseInt(productId) });
@@ -74,7 +74,7 @@ router.delete('/:id', authenticateToken, (req, res) => {
   const productId = req.params.id;
 
   if (!productId) {
-    return res.status(400).json({ error: 'Product ID is required in the URL parameter' });
+    return res.status(400).json({ success: false, error: 'Product ID is required in the URL parameter' });
   }
 
   const deleteQuery = 'DELETE FROM product WHERE id=?';
@@ -83,10 +83,10 @@ router.delete('/:id', authenticateToken, (req, res) => {
   db.query(deleteQuery, values, (error, results, fields) => {
     if (error) {
       console.error('Error in MySQL query: ' + error.message);
-      return res.status(500).json({ error: 'Error deleting product from the database' });
+      return res.status(500).json({ success: false, error: 'Error deleting product from the database' });
     }
     if (results.affectedRows === 0) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ success: false, error: 'Product not found' });
     }
     return res.json({ success: true, message: 'Product deleted successfully', deletedProductId: parseInt(productId) });
   });
@@ -101,11 +101,11 @@ router.get('/barcode/:barcode', authenticateToken, (req, res) => {
   db.query(query, [barcode], (error, results, fields) => {
     if (error) {
       console.error('Failed to get Product data: ' + error.message);
-      return res.status(500).json({ error: 'Failed to get product data' });
+      return res.status(500).json({ success: false, error: 'Failed to get product data' });
     }
 
     if (results.length === 0) {
-      return res.status(404).json({error: 'Product data not found, make sure to enter the barcode code correctly' });
+      return res.status(404).json({ success: false, error: 'Product data not found, make sure to enter the barcode code correctly' });
     } else {
       const productData = results[0];
       return res.json({ success: true, product: productData });
@@ -125,7 +125,7 @@ router.get('/name/:name', authenticateToken, (req, res) => {
   db.query(query, [partialNameWithWildcards], (error, results, fields) => {
     if (error) {
       console.error('Failed to get Product data: ' + error.message);
-      return res.status(500).json({ error: 'Failed to get product data' });
+      return res.status(500).json({ success: false, error: 'Failed to get product data' });
     }
 
     if (results.length === 0) {
@@ -133,11 +133,11 @@ router.get('/name/:name', authenticateToken, (req, res) => {
       db.query(recommendQuery, [`%${partialName}%`], (recommendError, recommendResults) => {
         if (recommendError) {
           console.error('Failed to get product name recommendations: ' + recommendError.message);
-          return res.status(500).json({ error: 'Failed to get product name recommendations' });
+          return res.status(500).json({ success: false, error: 'Failed to get product name recommendations' });
         }
 
         const recommendedNames = recommendResults.map(result => result.name);
-        return res.status(404).json({ error: 'Product data not found, Make sure to enter the product name correctly', recommendations: recommendedNames });
+        return res.status(404).json({ success: false, error: 'Product data not found, Make sure to enter the product name correctly'});
       });
     } else {
       return res.json({ success: true, product: results });
@@ -155,11 +155,11 @@ router.get('/detail/:barcode', authenticateToken, (req, res) => {
   db.query(query, [barcode], (error, results, fields) => {
     if (error) {
       console.error('Failed to get product data: ' + error.message);
-      return res.status(500).json({ error: 'Failed to get product data' });
+      return res.status(500).json({ success: false, error: 'Failed to get product data' });
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ error: 'Product data not found, make sure to enter the barcode code correctly' });
+      return res.status(404).json({ success: false, error: 'Product data not found, make sure to enter the barcode code correctly' });
     }
     const productDetail = results[0];
     return res.json({ success: true, product: productDetail });
