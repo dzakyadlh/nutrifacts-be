@@ -179,7 +179,7 @@ router.delete('/saved/:id', authenticateToken, (req, res) => {
       return res.status(404).json({ success: false, message: 'productsaved data not found' });
     }
 
-    const deleteUserQuery = 'DELETE FROM productsaved WHERE id = ?';
+    const deleteUserQuery = 'DELETE FROM productsaved WHERE user_id = ?';
     db.query(deleteUserQuery, [productsavedId], (deleteError, deleteResults, deleteFields) => {
       if (deleteError) {
         console.error('Failed to delete productsaved data' + deleteError.message);
