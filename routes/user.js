@@ -331,7 +331,7 @@ router.post('/saved',authenticateToken, (req, res) => {
 router.delete('/saved/:id', authenticateToken, (req, res) => {
   const usersavedId = req.params.id;
 
-  const checkUserQuery = 'SELECT * FROM usersaved WHERE id = ?';
+  const checkUserQuery = 'SELECT * FROM usersaved WHERE user_id = ?';
   db.query(checkUserQuery, [usersavedId], (checkError, checkResults, checkFields) => {
     if (checkError) {
       console.error('Failed to get user saved data' + checkError.message);
