@@ -150,7 +150,7 @@ router.get('/saved/:id', authenticateToken, (req, res) => {
 });
 
 
-// Route untuk Post Product Saved
+// Route untuk Post ProductSaved
 router.post('/saved',authenticateToken, (req, res) => {
   const { name, company, photoUrl, barcode, user_id } = req.body;
 
