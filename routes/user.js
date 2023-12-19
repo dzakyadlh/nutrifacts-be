@@ -135,7 +135,7 @@ router.get('/:id', authenticateToken, (req, res) => {
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ success: false, message: 'User not found' });
     } else {
       const user = results[0];
       delete user.password;
@@ -143,6 +143,7 @@ router.get('/:id', authenticateToken, (req, res) => {
     }
   });
 });
+
 
 // Rute untuk Update data pengguna dan Photo Url berdasarkan ID
 router.put('/:id',authenticateToken, async (req, res) => {
@@ -228,7 +229,6 @@ router.put('/:id',authenticateToken, async (req, res) => {
 });
 
 
-
 // Rute untuk menghapus data pengguna berdasarkan ID
 router.delete('/:id', authenticateToken, (req, res) => {
   const userId = req.params.id;
@@ -292,7 +292,7 @@ router.post('/history',authenticateToken, (req, res) => {
 });
 
 
-// Rute untuk mendapatkan data usersaved berdasarkan ID
+// Rute untuk mendapatkan data usersaved berdasarkan user_id
 router.get('/saved/:id', authenticateToken, (req, res) => {
   const userId = req.params.id;
   // Query ke database untuk mendapatkan data usersaved berdasarkan ID
@@ -300,18 +300,18 @@ router.get('/saved/:id', authenticateToken, (req, res) => {
   db.query(query, [userId], (error, results, fields) => {
     if (error) {
       console.error('Failed to get user saved data: ' + error.message);
-      return res.status(500).json({ error: 'Failed to get user saved data' });
+      return res.status(500).json({ success: false, message: 'Failed to get UserSaved data' });
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ error: 'User saved data not found' });
+      return res.status(404).json({ success: false, message: 'Usersaved by UserId not found' });
     } else {
-      return res.json(results);
+      return res.json({success: true, message: 'Successfully retrieved Usersaved data by UserId', UserSaved: results});
     }
   });
 });
 
-// Route untuk Post User Saved
+// Route untuk Post UserSaved
 router.post('/saved',authenticateToken, (req, res) => {
   const { name, company, photoUrl, barcode, user_id } = req.body;
 
@@ -319,37 +319,37 @@ router.post('/saved',authenticateToken, (req, res) => {
   const sql = 'INSERT INTO usersaved (name, company, photoUrl, barcode, user_id) VALUES (?, ?, ?, ?, ?)';
   db.query(sql, [name, company, photoUrl, barcode, user_id], (err, result) => {
     if (err) {
-      res.status(500).json({ error: 'Failed to save data to database' });
+      res.status(500).json({ success: false, message: 'Failed to save Usersaved data to database' });
       throw err;
     }
-    res.status(201).json({ message: 'The data Usersaved has been successfully saved' });
+    res.status(201).json({ success: true, message: 'The data Usersaved has been successfully saved' });
   });
 });
 
 
-// Rute untuk menghapus data usersaved berdasarkan ID
+// Rute untuk menghapus data usersaved berdasarkan Id
 router.delete('/saved/:id', authenticateToken, (req, res) => {
   const usersavedId = req.params.id;
 
-  const checkUserQuery = 'SELECT * FROM usersaved WHERE user_id = ?';
+  const checkUserQuery = 'SELECT * FROM usersaved WHERE id = ?';
   db.query(checkUserQuery, [usersavedId], (checkError, checkResults, checkFields) => {
     if (checkError) {
-      console.error('Failed to get user saved data' + checkError.message);
-      return res.status(500).json({ error: 'Failed to get user saved data' });
+      console.error('Failed to get Usersaved data' + checkError.message);
+      return res.status(500).json({ success: false, message: 'Failed to get Usersaved data' });
     }
 
     if (checkResults.length === 0) {
-      return res.status(404).json({ error: 'User saved data not found' });
+      return res.status(404).json({ success: false, message: 'Usersaved data not found' });
     }
 
-    const deleteUserQuery = 'DELETE FROM usersaved WHERE user_id = ?';
+    const deleteUserQuery = 'DELETE FROM usersaved WHERE id = ?';
     db.query(deleteUserQuery, [usersavedId], (deleteError, deleteResults, deleteFields) => {
       if (deleteError) {
-        console.error('Failed to delete user saved data' + deleteError.message);
-        return res.status(500).json({ error: 'Failed to delete user saved data' });
+        console.error('Failed to delete Usersaved data' + deleteError.message);
+        return res.status(500).json({ success: false, message: 'Failed to delete Usersaved data' });
       }
 
-      return res.status(200).json({ message: 'User saved data has been deleted' });
+      return res.status(200).json({ success: true, message: 'Usersaved data has been deleted' });
     });
   });
 });
