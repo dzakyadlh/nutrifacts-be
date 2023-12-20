@@ -51,6 +51,7 @@ router.post('/',authenticateToken, (req, res) => {
     });
   });
 
+
 // Rute untuk menghapus data news berdasarkan Id
 router.delete('/:id', authenticateToken, (req, res) => {
     const newsId = req.params.id;
@@ -76,6 +77,84 @@ router.delete('/:id', authenticateToken, (req, res) => {
         return res.status(200).json({ success: true, message: 'news data has been deleted' });
       });
     });
+  });
+
+
+
+  // Route untuk mengupdate data news berdasarkan ID 
+  router.put('/:id', authenticateToken, async (req, res) => {
+    const newsId = req.params.id;
+    const { title, photoUrl, date, description, source } = req.body;
+  
+    try {
+      const checkNewsQuery = 'SELECT * FROM news WHERE id = ?';
+      db.query(checkNewsQuery, [newsId], async (checkError, checkResults, checkFields) => {
+        if (checkError) {
+          console.error('Failed to get news data' + checkError.message);
+          return res.status(500).json({ success: false, message: 'Failed to get news data' });
+        } else if (checkResults.length === 0) {
+          return res.status(404).json({ success: false, message: 'News not found' });
+        }
+  
+        // Update data News
+        let updateNewsQuery = 'UPDATE news SET';
+        let updateValues = [];
+  
+        if (title) {
+          updateNewsQuery += ' title = ?,';
+          updateValues.push(title);
+        }
+  
+        if (photoUrl) {
+          updateNewsQuery += ' photoUrl = ?,';
+          updateValues.push(photoUrl);
+        }
+  
+        if (date) {
+          updateNewsQuery += ' date = ?,';
+          updateValues.push(date);
+        }
+  
+        if (description) {
+          updateNewsQuery += ' description = ?,';
+          updateValues.push(description);
+        }
+  
+        if (source) {
+          updateNewsQuery += ' source = ?,';
+          updateValues.push(source);
+        }
+  
+        
+        updateNewsQuery = updateNewsQuery.slice(0, -1);
+  
+        updateNewsQuery += ' WHERE id = ?';
+        updateValues.push(newsId);
+  
+        db.query(updateNewsQuery, updateValues, (updateError, updateResults, updateFields) => {
+          if (updateError) {
+            console.error('Failed to update news data' + updateError.message);
+            return res.status(500).json({ success: false, message: 'Failed to update news data' });
+          }
+  
+          // Query untuk mendapatkan data news yang baru saja diperbarui
+          const getUpdatedNewsQuery = 'SELECT * FROM news WHERE id = ?';
+          db.query(getUpdatedNewsQuery, [newsId], (getError, getResults, getFields) => {
+            if (getError) {
+              console.error('Failed to get updated news data' + getError.message);
+              return res.status(500).json({ success: false, message: 'Failed to get updated news data' });
+            }
+  
+            const updatedNews = getResults[0];
+            
+            return res.status(200).json({ success: true, message: 'Update news data successful', news: updatedNews });
+          });
+        });
+      });
+    } catch (error) {
+      console.error('Error in updating news data: ' + error.message);
+      return res.status(500).json({ success: false, message: 'Error in updating news data' });
+    }
   });
 
 
