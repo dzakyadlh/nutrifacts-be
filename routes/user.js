@@ -13,12 +13,10 @@ router.post("/login", (req, res) => {
 
   // Memeriksa apakah email dan password diinputkan
   if (!email || !password) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message: "Please provide both email and password for login",
-      });
+    return res.status(400).json({
+      success: false,
+      message: "Please provide both email and password for login",
+    });
   }
 
   const sql = "SELECT * FROM user WHERE email = ?";
@@ -31,13 +29,11 @@ router.post("/login", (req, res) => {
     }
 
     if (results.length === 0) {
-      return res
-        .status(401)
-        .json({
-          success: false,
-          message:
-            "Account not Found. Make sure the email and password are correct",
-        });
+      return res.status(401).json({
+        success: false,
+        message:
+          "Account not Found. Make sure the email and password are correct",
+      });
     }
 
     const user = results[0];
@@ -53,15 +49,13 @@ router.post("/login", (req, res) => {
       // Jika otentikasi berhasil, generate token
       const token = generateToken(user);
 
-      return res
-        .status(200)
-        .json({
-          success: true,
-          message: "Login Successful",
-          userId: user.user_id,
-          username: user.username,
-          token,
-        });
+      return res.status(200).json({
+        success: true,
+        message: "Login Successful",
+        userId: user.user_id,
+        username: user.username,
+        token,
+      });
     } else {
       return res
         .status(401)
@@ -77,22 +71,18 @@ router.post("/signup", async (req, res) => {
 
     // Periksa apakah email, username, dan password telah diinputkan
     if (!email || !username || !password) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Please provide email, username, and password.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Please provide email, username, and password.",
+      });
     }
 
     // Periksa apakah email mengandung karakter '@'
     if (!email.includes("@")) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Invalid email format. Please use a valid email address.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid email format. Please use a valid email address.",
+      });
     }
 
     // Periksa apakah email sudah ada di database
@@ -110,22 +100,18 @@ router.post("/signup", async (req, res) => {
 
         // Jika email sudah ada, beri respons
         if (checkEmailResult.length > 0) {
-          return res
-            .status(400)
-            .json({
-              success: false,
-              message: "Email already exists. Please use a different email.",
-            });
+          return res.status(400).json({
+            success: false,
+            message: "Email already exists. Please use a different email.",
+          });
         }
 
         // Periksa panjang password
         if (password.length < 8) {
-          return res
-            .status(400)
-            .json({
-              success: false,
-              message: "Password should be at least 8 characters long.",
-            });
+          return res.status(400).json({
+            success: false,
+            message: "Password should be at least 8 characters long.",
+          });
         }
 
         // Hash password sebelum menyimpan ke database
@@ -148,12 +134,10 @@ router.post("/signup", async (req, res) => {
             }
 
             if (result.affectedRows > 0) {
-              return res
-                .status(200)
-                .json({
-                  success: true,
-                  message: "User Registered Successfully",
-                });
+              return res.status(200).json({
+                success: true,
+                message: "User Registered Successfully",
+              });
             } else {
               return res
                 .status(500)
@@ -295,12 +279,10 @@ router.put("/:id", authenticateToken, async (req, res) => {
 
                 const updatedUser = getResults[0];
                 // Kirim respons dengan data user yang baru saja diperbarui
-                return res
-                  .status(200)
-                  .json({
-                    message: "Update user data successful",
-                    user: updatedUser,
-                  });
+                return res.status(200).json({
+                  message: "Update user data successful",
+                  user: updatedUser,
+                });
               }
             );
           }
@@ -401,18 +383,11 @@ router.get("/saved/:id", authenticateToken, (req, res) => {
         .status(500)
         .json({ success: false, message: "Failed to get UserSaved data" });
     }
-
-    if (results.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Usersaved by UserId not found" });
-    } else {
-      return res.json({
-        success: true,
-        message: "Successfully retrieved Usersaved data by UserId",
-        UserSaved: results,
-      });
-    }
+    return res.json({
+      success: true,
+      message: "Successfully retrieved Usersaved data by UserId",
+      UserSaved: results,
+    });
   });
 });
 
@@ -425,20 +400,16 @@ router.post("/saved", authenticateToken, (req, res) => {
     "INSERT INTO usersaved (name, company, photoUrl, barcode, user_id) VALUES (?, ?, ?, ?, ?)";
   db.query(sql, [name, company, photoUrl, barcode, user_id], (err, result) => {
     if (err) {
-      res
-        .status(500)
-        .json({
-          success: false,
-          message: "Failed to save Usersaved data to database",
-        });
+      res.status(500).json({
+        success: false,
+        message: "Failed to save Usersaved data to database",
+      });
       throw err;
     }
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "The data Usersaved has been successfully saved",
-      });
+    res.status(201).json({
+      success: true,
+      message: "The data Usersaved has been successfully saved",
+    });
   });
 });
 
@@ -473,20 +444,16 @@ router.delete("/saved/:id", authenticateToken, (req, res) => {
             console.error(
               "Failed to delete Usersaved data" + deleteError.message
             );
-            return res
-              .status(500)
-              .json({
-                success: false,
-                message: "Failed to delete Usersaved data",
-              });
+            return res.status(500).json({
+              success: false,
+              message: "Failed to delete Usersaved data",
+            });
           }
 
-          return res
-            .status(200)
-            .json({
-              success: true,
-              message: "Usersaved data has been deleted",
-            });
+          return res.status(200).json({
+            success: true,
+            message: "Usersaved data has been deleted",
+          });
         }
       );
     }
