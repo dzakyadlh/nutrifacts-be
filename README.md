@@ -43,11 +43,11 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
     http://localhost:3000
     ```
 
-## Fitur
+## Features
 
-- Fitur keren pertama.
-- Fitur menarik kedua.
-- Fitur hebat ketiga.
+- Cool features first.
+- Attractive features second.
+- Great features third.
 
 ## Kontribusi
 
