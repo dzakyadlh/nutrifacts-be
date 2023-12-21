@@ -37,6 +37,11 @@ Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.
     ```
     http://localhost:3000
     ```
+3. **You can also run the app in Postman:**
+
+    ```
+    http://localhost:3000
+    ```
 
 ## Fitur
 
