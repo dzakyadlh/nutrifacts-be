@@ -11,5 +11,5 @@ Make sure you have installed [Node.js](https://nodejs.org/) and [npm](https://ww
 
 ```bash
 git clone https://github.com/dzakyadlh/nutrifacts-be.git
-
+```bash
 3. After cloning, open the project using [visual studio code](https://code.visualstudio.com/)  or a similar editor application.
