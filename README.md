@@ -6,7 +6,8 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
 
 Make sure you have installed [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) on your computer before continue.
 
-1. Clone this repository:
+1. Create an empty folder to clone this project, make sure it is logged into the folder
+2. Clone this repository:
 
 ```bash
 git clone https://github.com/dzakyadlh/nutrifacts-be.git
