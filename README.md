@@ -1,5 +1,5 @@
 # Nutrifacts Backend
-
+#### Welcome to Nutrifacts, where scanning a barcode is the easiest step to a healthier you
 [![Node.js](https://img.shields.io/badge/Node.js-v14.17.5-green.svg)](https://nodejs.org/)
 [![npm](https://img.shields.io/badge/npm-v6.14.14-red.svg)](https://www.npmjs.com/)
 
