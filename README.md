@@ -37,7 +37,7 @@ Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.
     ```
     http://localhost:3000
     ```
-3. **You can also run the app in Postman:**
+3. **You can also run the app in [Postman](https://www.postman.com/):**
 
     ```
     http://localhost:3000
