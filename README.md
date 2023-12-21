@@ -9,4 +9,4 @@ Make sure you have installed [Node.js](https://nodejs.org/) and [npm](https://ww
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/username/nama-proyek.git
+git clone https://github.com/dzakyadlh/nutrifacts-be.git
