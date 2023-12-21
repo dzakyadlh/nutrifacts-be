@@ -25,7 +25,6 @@ Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.
     npm install
     ```
 ## Usage
-
 1. Pastikan konfigurasi database sudah sesuai pada file [connection.js](https://github.com/dzakyadlh/nutrifacts-be.git/connection.js)
 1. **Run the application:**
 
