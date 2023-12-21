@@ -26,6 +26,8 @@ Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.
     ```
 ## Usage
 
+![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](https://myoctocat.com/assets/images/base-octocat.svg)
+
 1. **Run the application:**
 
     ```bash
