@@ -70,6 +70,7 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
 - Secure route authentication, using [Json Web Token](https://jwt.io/)
 - Using [Express Generator](https://expressjs.com/en/starter/generator.html) to ease the folder structure
 
-## Lisensi
-Proyek ini dilisensikan di bawah [MIT License](LICENSE) - lihat file [LICENSE](LICENSE) untuk detailnya.
+## Contact
+Visit:
+- [Rangga Saputra](https://github.com/ranggasaputra1)
 
