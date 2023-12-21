@@ -25,7 +25,7 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
     ```
 ## Usage
 
-1. Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) installed on your computer before continue.
+1. Make sure the configuration on the database in the [connection.js](connection.js) file is as needed
 2. **Run the application:**
 
     ```bash
