@@ -6,7 +6,6 @@
 This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.google/intl/id_id/bangkit/?tab=machine-learning). This application aims to run from the Backend side of the Nutrifacts application.
 ## Installation
 
-Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) installed on your computer before continue.
 1. **Clone this repository:**
 
     ```bash
@@ -25,19 +24,20 @@ Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.
     npm install
     ```
 ## Usage
-1. Pastikan konfigurasi database sudah sesuai pada file [connection.js](connection.js)
-1. **Run the application:**
+
+1. Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) installed on your computer before continue.
+2. **Run the application:**
 
     ```bash
     npm run start
     ```
 
-2. **Open the application in a browser:**
+3. **Open the application in a browser:**
 
     ```
     http://localhost:3000
     ```
-3. **You can also run the app in [Postman](https://www.postman.com/):**
+4. **You can also run the app in [Postman](https://www.postman.com/):**
 
     ```
     http://localhost:3000
