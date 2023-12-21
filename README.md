@@ -51,12 +51,12 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
 - After successfully logging in, the authentication token will be generated, you can use the token in the header section for authorization, in order to access all existing routes.
 ![success](https://storage.googleapis.com/nutrifactsapp/photo_readme_github/success_readme.PNG)
 
-6.**You can now access the routes available on our Nutrifacts backend.** to see what routes are available please open the [routes](routes) folder
+6. **You can now access the routes available on our Nutrifacts backend.** to see what routes are available please open the [routes](routes) folder
 
 ## Features
 
-- Cool features first.
-- Attractive features second.
+- Backend application using [Express Js](https://expressjs.com)
+- Secure route authentication, using [Json Web Token](https://jwt.io/)
 - Great features third.
 
 ## Kontribusi
