@@ -25,7 +25,7 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
     ```
 ## Usage
 
-1. Make sure the configuration on the database in the [connection.js](connection.js) file is as needed
+1. **Make sure the configuration on the database in the [connection.js](connection.js) file is as needed**
 2. **Run the application:**
 
     ```bash
