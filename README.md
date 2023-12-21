@@ -1,6 +1,3 @@
-# Nutrifacts Backend
-
-This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.google/intl/id_id/bangkit/?tab=machine-learning). This application aims to run from the Backend side of the Nutrifacts application.
 
 ## Installation
 
@@ -14,14 +11,13 @@ git clone https://github.com/dzakyadlh/nutrifacts-be.git
 ```
 3. After cloning, open the project using [visual studio code](https://code.visualstudio.com/)  or a similar editor application.
 
-# <img src="logo.png" alt="Logo" width="40"/> Nama Proyek Anda
+# Nutrifacts Backend
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-v14.17.5-green.svg)](https://nodejs.org/)
 [![npm](https://img.shields.io/badge/npm-v6.14.14-red.svg)](https://www.npmjs.com/)
 
-Deskripsi singkat dan menarik tentang proyek Anda.
-
+This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.google/intl/id_id/bangkit/?tab=machine-learning). This application aims to run from the Backend side of the Nutrifacts application.
 ## Instalasi
 
 Pastikan Anda memiliki Node.js dan npm terinstal di komputer Anda sebelum melanjutkan.
