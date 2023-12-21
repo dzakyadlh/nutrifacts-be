@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/badge/npm-v6.14.14-red.svg)](https://www.npmjs.com/)
 
 This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.google/intl/id_id/bangkit/?tab=machine-learning). This application aims to run from the Backend side of the Nutrifacts application.
-## Instalasi
+## Installation
 
 Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) installed on your computer before continue.
 1. **Clone this repository:**
@@ -24,16 +24,15 @@ Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.
     ```bash
     npm install
     ```
+## Usage
 
-## Penggunaan
+1. **Run the application:**
 
-1. **Jalankan aplikasi:**
-
-    ```bash
-    npm start
+    ``bash
+    npm run start
     ```
 
-2. **Buka aplikasi di browser:**
+2. **Open the application in a browser:**
 
     ```
     http://localhost:3000
