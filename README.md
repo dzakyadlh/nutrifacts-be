@@ -5,6 +5,16 @@
 
 #### Welcome to Nutrifacts, where scanning a barcode is the easiest step to a healthier you
 This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.google/intl/id_id/bangkit/?tab=machine-learning). This application aims to run from the Backend side of the Nutrifacts application.
+
+## Our Team
+| Name                            | Bangkit-ID    | Path               |
+| -------------                   | ------------- | -------------      |
+| Dzaky Adla Hikmatiyar           | A004BSY2088   | Mobile Development |
+| Rangga Saputra                  | C171BSY3346   | Cloud Computing    |
+| Ahmad Ryan Al Aqsha             | C208BSY4225   | Cloud Computing    |
+| Mohamad Vikry Athari            | M004BSY1465   | Machine Learning   |
+| Riefky Ichsan Baihaqi           | M010BSY1309   | Machine Learning   |
+| Guntur Awaludin Saptadi         | M200BSY1914   | Machine Learning   |
 ## Installation
 
 1. **Clone this repository:**
