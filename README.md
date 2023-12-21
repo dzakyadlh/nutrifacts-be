@@ -57,8 +57,7 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
 
 - Backend application using [Express Js](https://expressjs.com)
 - Secure route authentication, using [Json Web Token](https://jwt.io/)
-- Great features third.
-
+- Using [Express Generator](https://expressjs.com/en/starter/generator.html) to ease the folder structure
 ## Kontribusi
 
 Jika Anda ingin berkontribusi pada proyek ini, silakan ikuti langkah-langkah berikut:
