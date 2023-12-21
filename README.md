@@ -1,18 +1,5 @@
-## Installation
-
-Make sure you have installed [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) on your computer before continue.
-
-1. Create an empty folder to clone this project, make sure it is logged into the folder
-2. Clone this repository:
-
-```
-git clone https://github.com/dzakyadlh/nutrifacts-be.git
-```
-3. After cloning, open the project using [visual studio code](https://code.visualstudio.com/)  or a similar editor application.
-
 # Nutrifacts Backend
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-v14.17.5-green.svg)](https://nodejs.org/)
 [![npm](https://img.shields.io/badge/npm-v6.14.14-red.svg)](https://www.npmjs.com/)
 
@@ -24,13 +11,13 @@ Pastikan Anda memiliki Node.js dan npm terinstal di komputer Anda sebelum melanj
 1. **Clone repositori ini:**
 
     ```bash
-    git clone https://github.com/username/nama-proyek.git
+    git clone git clone https://github.com/dzakyadlh/nutrifacts-be.git
     ```
 
 2. **Pindah ke direktori proyek:**
 
     ```bash
-    cd nama-proyek
+    cd nutrifacts-be
     ```
 
 3. **Install dependensi:**
