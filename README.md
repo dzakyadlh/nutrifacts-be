@@ -43,7 +43,7 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
     http://localhost:3000
     ```
 5. Because this project uses [Json Web Tokens](https://jwt.io/) to authenticate security, in order to access all existing routes, you must first log in to get a Token. in [Postman](https://www.postman.com/) do the following :
-- Signup if you don't have an account to log in.
+- Signup by accessing the route `http://localhost:3000/user/signup` if you do not have an account to log in.
       
 ## Features
 
