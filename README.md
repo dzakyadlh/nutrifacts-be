@@ -1,4 +1,3 @@
-
 ## Installation
 
 Make sure you have installed [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) on your computer before continue.
