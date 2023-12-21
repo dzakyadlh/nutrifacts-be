@@ -4,7 +4,7 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
 
 ## Installation
 
-Make sure you have installed [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) on your computer before continuing.
+Make sure you have installed [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) on your computer before continue.
 
 1. Clone repositori ini:
 
