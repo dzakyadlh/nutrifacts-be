@@ -9,7 +9,7 @@ Make sure you have installed [Node.js](https://nodejs.org/) and [npm](https://ww
 1. Create an empty folder to clone this project, make sure it is logged into the folder
 2. Clone this repository:
 
-```bash
+```
 git clone https://github.com/dzakyadlh/nutrifacts-be.git
-```bash
+```
 3. After cloning, open the project using [visual studio code](https://code.visualstudio.com/)  or a similar editor application.
