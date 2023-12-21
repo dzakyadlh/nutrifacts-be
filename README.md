@@ -58,17 +58,7 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
 - Backend application using [Express Js](https://expressjs.com)
 - Secure route authentication, using [Json Web Token](https://jwt.io/)
 - Using [Express Generator](https://expressjs.com/en/starter/generator.html) to ease the folder structure
-## Kontribusi
-
-Jika Anda ingin berkontribusi pada proyek ini, silakan ikuti langkah-langkah berikut:
-
-1. Fork repositori ini.
-2. Buat cabang fitur baru: `git checkout -b fitur-baru`
-3. Lakukan perubahan dan commit: `git commit -m 'Menambahkan fitur baru'`
-4. Push ke cabang fitur: `git push origin fitur-baru`
-5. Buat pull request.
 
 ## Lisensi
-
 Proyek ini dilisensikan di bawah [MIT License](LICENSE) - lihat file [LICENSE](LICENSE) untuk detailnya.
 
