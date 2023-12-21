@@ -6,7 +6,7 @@
 This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.google/intl/id_id/bangkit/?tab=machine-learning). This application aims to run from the Backend side of the Nutrifacts application.
 ## Instalasi
 
-Make sure you have Node.js and npm installed on your computer before continue.
+Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.com/) installed on your computer before continue.
 1. **Clone this repository:**
 
     ```bash
