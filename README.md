@@ -14,7 +14,6 @@ git clone https://github.com/dzakyadlh/nutrifacts-be.git
 ```
 3. After cloning, open the project using [visual studio code](https://code.visualstudio.com/)  or a similar editor application.
 
-
 # <img src="logo.png" alt="Logo" width="40"/> Nama Proyek Anda
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
