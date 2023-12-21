@@ -9,7 +9,7 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
 1. **Clone this repository:**
 
     ```bash
-    git clone git clone https://github.com/dzakyadlh/nutrifacts-be.git
+    git clone https://github.com/dzakyadlh/nutrifacts-be.git
     ```
 
 2. **Move to the project directory:**
