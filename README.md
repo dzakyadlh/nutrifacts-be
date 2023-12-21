@@ -28,7 +28,7 @@ Make sure you have [Node.js](https://nodejs.org/en) and [npm](https://www.npmjs.
 
 1. **Run the application:**
 
-    ``bash
+    ```bash
     npm run start
     ```
 
