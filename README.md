@@ -71,7 +71,7 @@ This repository is the Capstone Project in [Bangkit Academy 2023](https://grow.g
 - Using [Express Generator](https://expressjs.com/en/starter/generator.html) to ease the folder structure
 
 ## LINK
-We have also deployed this Backend project on the Google cloud, which can be accessed at https://nutrifactsapp.et.r.appspot.com/
+We have also deployed this Backend project on the Google cloud, using the APP Engine service and can be accessed at https://nutrifactsapp.et.r.appspot.com/
 
 ## Contact
 Visit:
